@@ -42,7 +42,7 @@
         src: /tmp/logs/log-content{{ ansible_date_time.date }}.tar.gz
         dest: /root/answer/
 
-    - name: Simple PUT operation
+    - name: Uploading to the S3 bucket
       amazon.aws.aws_s3:
         bucket: web-server-log-compressed
         object: log-content{{ ansible_date_time.date }}.tar.gz

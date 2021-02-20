@@ -16,7 +16,7 @@
       return_content: yes
     register: result2
     ignore_errors: yes
-aw
+
   - name: Storing Results
     command: ./dynamodb1.sh
     ignore_errors: yes

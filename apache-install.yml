@@ -36,7 +36,7 @@
         name: "Checking the Web server state for every 15 Minute"
         minute: "*/15"
         hour: "*"
-        job: ansible-playbook /root/answer/webserver-status-check.yml -i /root/answer/inventory
+        job: /usr/local/bin/ansible-playbook /root/answer/webserver-status-check.yml -i /root/answer/inventory
       delegate_to: localhost
 
     - name: Scheduling the tasks
@@ -44,5 +44,5 @@
         name: "Uploading the log files every day."
         minute: "58"
         hour: "23"
-        job: ansible-playbook /root/answer/log-save.yml -i /root/answer/inventory
+        job: /usr/local/bin/ansible-playbook /root/answer/log-save.yml -i /root/answer/inventory
       delegate_to: localhost

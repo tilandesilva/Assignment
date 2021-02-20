@@ -9,6 +9,6 @@ sudo yum -y install python3
 pip3 install pip --upgrade
 sudo pip3 install boto3
 sudo pip3 install ansible 
-sudo pip3 install awcli
+sudo pip3 install awscli
 sudo ansible-galaxy collection install community.general
 sudo ansible-galaxy collection install amazon.aws
