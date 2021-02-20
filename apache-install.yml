@@ -1,0 +1,48 @@
+---
+- name: Installing Apache web server and starting service
+  hosts: dev
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: installing Apache
+      yum:
+        name: httpd
+        state:  present
+
+    - name: Copying the content of the webpage
+      copy:
+        content: "Hello World"
+        dest: /var/www/html/index.html
+
+    - name: starting Apache
+      service:
+        name: httpd
+        state:  started
+        enabled:  true
+
+    - name: changing the permition of sh file
+      file:
+        path: "{{ item }}"
+        state:  touch
+        mode: a+x
+      loop:
+        - dynamodb1.sh
+        - dynamodb2.sh
+        - dynamodb3.sh
+      delegate_to: localhost
+
+    - name: Scheduling the tasks 
+      cron:
+        name: "Checking the Web server state for every 15 Minute"
+        minute: "*/15"
+        hour: "*"
+        job: ansible-playbook /root/answer/webserver-status-check.yml -i /root/answer/inventory
+      delegate_to: localhost
+
+    - name: Scheduling the tasks
+      cron:
+        name: "Uploading the log files every day."
+        minute: "58"
+        hour: "23"
+        job: ansible-playbook /root/answer/log-save.yml -i /root/answer/inventory
+      delegate_to: localhost
