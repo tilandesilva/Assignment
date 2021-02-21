@@ -11,7 +11,7 @@
 	wget https://github.com/tilandesilva/LSEG-work/raw/main/answer.tar.gz 
 	(If you get an error that wget is not available install the wget using "yum -y install wget") 
 	Using the following command unzip the answer.tar.gz file
-	"tar xzvf answers.tar.gz"
+	"tar xzvf answer.tar.gz"
 	change the working directory to the answer directory using the following command.
 	"cd answer"
 
