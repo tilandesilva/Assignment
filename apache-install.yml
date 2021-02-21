@@ -1,7 +1,8 @@
 ---
 - name: Installing Apache web server and starting service
-  hosts: dev
-  remote_user: ec2-user
+  hosts: dev #host group which this play is applied
+  remote_user: ec2-user #Under this user playbook is executed
+  become_method:  sudo #permission changing method
   become: yes
   tasks:
     - name: installing Apache
@@ -29,7 +30,7 @@
         - dynamodb1.sh
         - dynamodb2.sh
         - dynamodb3.sh
-      delegate_to: localhost
+      delegate_to: localhost #executing the module on localhost
 
     - name: Scheduling the tasks 
       cron:
@@ -37,12 +38,12 @@
         minute: "*/15"
         hour: "*"
         job: /usr/local/bin/ansible-playbook /root/answer/webserver-status-check.yml -i /root/answer/inventory
-      delegate_to: localhost
+      delegate_to: localhost #executing the module on localhost
 
     - name: Scheduling the tasks
       cron:
         name: "Uploading the log files every day."
-        minute: "58"
+        minute: "59"
         hour: "23"
         job: /usr/local/bin/ansible-playbook /root/answer/log-save.yml -i /root/answer/inventory
-      delegate_to: localhost
+      delegate_to: localhost #executing the module on localhost
