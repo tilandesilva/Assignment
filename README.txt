@@ -6,9 +6,10 @@
 	your working directory to "/root" by using cd /root/
 
 # Downloading the Answer file 
-	URL:
+	URL:https://github.com/tilandesilva/LSEG-work/raw/main/answer.tar.gz
 	using the below command download the answer.tar.gz file
-	wget URL (If you get an error that wget is not available install the wget using "yum -y install wget") 
+	wget https://github.com/tilandesilva/LSEG-work/raw/main/answer.tar.gz 
+	(If you get an error that wget is not available install the wget using "yum -y install wget") 
 	Using the following command unzip the answer.tar.gz file
 	"tar xzvf answers.tar.gz"
 	change the working directory to the answer directory using the following command.
