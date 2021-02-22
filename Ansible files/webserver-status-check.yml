@@ -1,0 +1,53 @@
+---
+- name: Checking the Web server status
+  hosts: dev #host group which this play is applied
+  remote_user: ec2-user #Under this user playbook is executed
+  become_method:  sudo #permission changing method
+  become: yes
+  tasks:
+  - name: Starting server if the server is not running
+    service:
+      name: httpd
+      state: started
+    register: result1 #saving output log content of the module
+
+  - name: Check that page returns a status 200
+    uri:
+      url: http://localhost/
+      return_content: yes # returning the web page content
+    register: result2 #saving output log content of the module
+    ignore_errors: yes
+
+  - name: Storing Results
+    command: ./dynamodb1.sh
+    ignore_errors: yes
+    when:
+      - result1.state == "started"
+      - result2.status == 200
+    delegate_to: localhost #executing the module on localhost
+
+  - name: Storing Results
+    command: ./dynamodb2.sh
+    ignore_errors: yes
+    when: result1.state != "started"
+    delegate_to: localhost #executing the module on localhost
+    
+
+  - name: Storing Results
+    command: ./dynamodb3.sh
+    ignore_errors: yes
+    when: result2.status != 200 and result1.state == "started"
+    delegate_to: localhost #executing the module on localhost
+
+  - name: Sending an e-mail using Gmail SMTP servers
+    mail:
+      host: smtp.sample.lseg.com
+      port: 587
+      username: sample.service@lseg.com
+      password: secret
+      to: support.teams.sample@lseg.com
+      subject: Service Failure
+      body: Web server running on {{ inventory_hostname }} has an error. Please check this immediately.
+    delegate_to: localhost #executing the module on localhost
+    ignore_errors: yes
+    when: result2.status != 200 or result1.state != "started"
