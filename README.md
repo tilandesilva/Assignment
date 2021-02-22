@@ -1,4 +1,4 @@
-#Control Machine (Where the scripts are executed)
+# Control Machine (Where the scripts are executed)
 	Create a Linux VM or use a Linux Workstation to execute scripts. (Linux distribution should be Redhat)
 
 # Accessing the VM
